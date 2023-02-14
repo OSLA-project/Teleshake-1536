@@ -38,16 +38,17 @@ root/
 ###Naming
 
 The name of the SiLA server module should follow the following structure:
-`device-type_manufacturer_device_series_device-model`
+`sila2-drv-<device_type>-<manufacturer>-<device_name>`
 
-Example:  `balance_mettlertoledo_xpr_xpr504s`
 Note: the information to name the device might not always be available and in some cases to remove some of it might make more sense. The above should be followed to the extent possible and servers should be treated case by case.
+
+Example:  `sila2-drv-shaker-thermoscientific-teleshake1536`
 
 ###Install and run driver
 
 ```shell
 # Setup and activate virtual environment
-python -m venv .venv
+python -m venv venv
 ./venv/Scripts/activate
 
 # Install package dependencies
@@ -60,7 +61,7 @@ codegen.bat
 python -m pip install .
 
 # Start driver on port 50050
-python -m sila2.driver.manufacturer.device_name -port 50050
+python -m sila2.driver.thermoscientific.teleshake1536 --port 50050
 ```
 
 ###Connect to the SiLA server
