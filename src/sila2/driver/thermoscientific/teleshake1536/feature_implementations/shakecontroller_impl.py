@@ -5,6 +5,8 @@ from queue import Queue
 from time import sleep, time
 from typing import TYPE_CHECKING
 
+from sila2.framework.errors.undefined_execution_error import UndefinedExecutionError
+from sila2.framework.errors.validation_error import ValidationError
 from sila2.server import MetadataDict, ObservableCommandInstanceWithIntermediateResponses
 
 from ..api.teleshake import FrameError, InternalError, ParameterError, Teleshake1536
@@ -21,11 +23,7 @@ from ..generated.shakecontroller import (
     StopShaking_Responses,
     UnlockPlate_Responses,
 )
-from ..generated.shakecontroller.shakecontroller_errors import (
-    CancelledError,
-    ParameterOutOfRangeError,
-    SerialCommunicationError,
-)
+from ..generated.shakecontroller.shakecontroller_errors import CancelledError
 from ..generated.shakecontroller.shakecontroller_errors import TimeoutError as TimeoutErr
 
 if TYPE_CHECKING:
@@ -82,9 +80,9 @@ class ShakeControllerImpl(ShakeControllerBase):
         except TimeoutError as ex:
             raise TimeoutErr from ex
         except (FrameError, IOError, InternalError) as ex:
-            raise SerialCommunicationError from ex
+            raise UndefinedExecutionError from ex
         except ParameterError as ex:
-            raise ParameterOutOfRangeError from ex
+            raise ValidationError from ex
         return StartShaking_Responses()
 
     def StartShaking(self, TargetSpeed: float, TargetPower: float, *, metadata: MetadataDict) -> StartShaking_Responses:
@@ -96,9 +94,9 @@ class ShakeControllerImpl(ShakeControllerBase):
         except TimeoutError as ex:
             raise TimeoutErr from ex
         except (FrameError, IOError, InternalError) as ex:
-            raise SerialCommunicationError from ex
+            raise UndefinedExecutionError from ex
         except ParameterError as ex:
-            raise ParameterOutOfRangeError from ex
+            raise ValidationError from ex
         return StartShaking_Responses()
 
     def GoHome(self, *, metadata: MetadataDict) -> GoHome_Responses:
@@ -111,9 +109,9 @@ class ShakeControllerImpl(ShakeControllerBase):
         except TimeoutError as ex:
             raise TimeoutErr from ex
         except (FrameError, IOError, InternalError) as ex:
-            raise SerialCommunicationError from ex
+            raise UndefinedExecutionError from ex
         except ParameterError as ex:
-            raise ParameterOutOfRangeError from ex
+            raise ValidationError from ex
         return UnlockPlate_Responses()
 
     def LockPlate(self, *, metadata: MetadataDict) -> LockPlate_Responses:
@@ -123,9 +121,9 @@ class ShakeControllerImpl(ShakeControllerBase):
         except TimeoutError as ex:
             raise TimeoutErr from ex
         except (FrameError, IOError, InternalError) as ex:
-            raise SerialCommunicationError from ex
+            raise UndefinedExecutionError from ex
         except ParameterError as ex:
-            raise ParameterOutOfRangeError from ex
+            raise ValidationError from ex
         return LockPlate_Responses()
 
     def ShakeForTime(
@@ -170,8 +168,8 @@ class ShakeControllerImpl(ShakeControllerBase):
         except TimeoutError as ex:
             raise TimeoutErr from ex
         except (FrameError, IOError, InternalError) as ex:
-            raise SerialCommunicationError from ex
+            raise UndefinedExecutionError from ex
         except ParameterError as ex:
-            raise ParameterOutOfRangeError from ex
+            raise ValidationError from ex
 
         return ShakeForTime_Responses()

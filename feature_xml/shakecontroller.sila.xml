@@ -23,6 +23,15 @@
             <Basic>Integer</Basic>
           </DataType>
           <Constraints>
+            <Unit>
+              <Label>s</Label>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <UnitComponent>
+                <SIUnit>Second</SIUnit>
+                <Exponent>1</Exponent>
+              </UnitComponent>
+            </Unit>
             <MinimalInclusive>1</MinimalInclusive>
             <MaximalInclusive>99999</MaximalInclusive>
           </Constraints>
@@ -55,6 +64,15 @@
             <Basic>Real</Basic>
           </DataType>
           <Constraints>
+            <Unit>
+              <Label>%</Label>
+              <Factor>0.01</Factor>
+              <Offset>0</Offset>
+              <UnitComponent>
+                <SIUnit>Dimensionless</SIUnit>
+                <Exponent>1</Exponent>
+              </UnitComponent>
+            </Unit>
             <MinimalInclusive>0</MinimalInclusive>
             <MaximalInclusive>100</MaximalInclusive>
           </Constraints>
@@ -66,13 +84,27 @@
       <DisplayName>Time Left (s)</DisplayName>
       <Description>Time left in seconds</Description>
       <DataType>
-        <Basic>Real</Basic>
+        <Constrained>
+          <DataType>
+            <Basic>Real</Basic>
+          </DataType>
+          <Constraints>
+            <Unit>
+              <Label>s</Label>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <UnitComponent>
+                <SIUnit>Second</SIUnit>
+                <Exponent>1</Exponent>
+              </UnitComponent>
+            </Unit>
+          </Constraints>
+        </Constrained>
       </DataType>
+
     </IntermediateResponse>
     <DefinedExecutionErrors>
       <Identifier>CancelledError</Identifier>
-      <Identifier>ParameterOutOfRangeError</Identifier>
-      <Identifier>SerialCommunicationError</Identifier>
       <Identifier>TimeoutError</Identifier>
     </DefinedExecutionErrors>
   </Command>
@@ -83,7 +115,6 @@
     <Observable>No</Observable>
     <DefinedExecutionErrors>
       <Identifier>CancelledError</Identifier>
-      <Identifier>SerialCommunicationError</Identifier>
       <Identifier>TimeoutError</Identifier>
     </DefinedExecutionErrors>
   </Command>
@@ -102,6 +133,15 @@
             <Basic>Real</Basic>
           </DataType>
           <Constraints>
+            <Unit>
+              <Label>rpm</Label>
+              <Factor>0.0166666666666666667</Factor>
+              <Offset>0</Offset>
+              <UnitComponent>
+                <SIUnit>Second</SIUnit>
+                <Exponent>-1</Exponent>
+              </UnitComponent>
+            </Unit>
             <MinimalInclusive>4006</MinimalInclusive>
             <MaximalInclusive>8484</MaximalInclusive>
           </Constraints>
@@ -118,6 +158,15 @@
             <Basic>Real</Basic>
           </DataType>
           <Constraints>
+            <Unit>
+              <Label>%</Label>
+              <Factor>0.01</Factor>
+              <Offset>0</Offset>
+              <UnitComponent>
+                <SIUnit>Dimensionless</SIUnit>
+                <Exponent>1</Exponent>
+              </UnitComponent>
+            </Unit>
             <MinimalInclusive>0</MinimalInclusive>
             <MaximalInclusive>99</MaximalInclusive>
           </Constraints>
@@ -125,8 +174,6 @@
       </DataType>
     </Parameter>
     <DefinedExecutionErrors>
-      <Identifier>ParameterOutOfRangeError</Identifier>
-      <Identifier>SerialCommunicationError</Identifier>
       <Identifier>TimeoutError</Identifier>
     </DefinedExecutionErrors>
   </Command>
@@ -135,43 +182,24 @@
     <DisplayName>GoHome</DisplayName>
     <Description>Move the plate to home position.</Description>
     <Observable>No</Observable>
-    <DefinedExecutionErrors>
-      <Identifier>SerialCommunicationError</Identifier>
-    </DefinedExecutionErrors>
   </Command>
   <Command>
     <Identifier>UnlockPlate</Identifier>
     <DisplayName>Unlock Plate</DisplayName>
     <Description>Unlock plate</Description>
     <Observable>No</Observable>
-    <DefinedExecutionErrors>
-      <Identifier>SerialCommunicationError</Identifier>
-    </DefinedExecutionErrors>
   </Command>
   <Command>
     <Identifier>LockPlate</Identifier>
     <DisplayName>Lock Plate</DisplayName>
     <Description>Lock the plate</Description>
     <Observable>No</Observable>
-    <DefinedExecutionErrors>
-      <Identifier>SerialCommunicationError</Identifier>
-    </DefinedExecutionErrors>
   </Command>
 
   <DefinedExecutionError>
     <Identifier>CancelledError</Identifier>
     <DisplayName>Cancelled Error</DisplayName>
     <Description>Call was cancelled by user</Description>
-  </DefinedExecutionError>
-  <DefinedExecutionError>
-    <Identifier>ParameterOutOfRangeError</Identifier>
-    <DisplayName>Parameter Out of Range Error</DisplayName>
-    <Description>Provided parameter is outside the allowed range</Description>
-  </DefinedExecutionError>
-  <DefinedExecutionError>
-    <Identifier>SerialCommunicationError</Identifier>
-    <DisplayName>Serial Communication Error</DisplayName>
-    <Description>Error communicating with device</Description>
   </DefinedExecutionError>
   <DefinedExecutionError>
     <Identifier>TimeoutError</Identifier>
