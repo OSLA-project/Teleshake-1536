@@ -4,11 +4,11 @@ Library of SiLA2 drivers for laboratory automation
 
 ## Getting started
 
-### Prerequisites: 
+### Prerequisites:
 
-* Python 3.9 or later 
-* SiLA client - you can find an open source client here [Universal SiLA Client](https://gitlab.com/SiLA2/universal-sila-client/sila_universal_client )
-Note: if you are usuning the Universal Sila Client you will need [java 17](https://www.oracle.com/java/technologies/downloads/#jdk17-windows )
+- Python 3.9 or later
+- SiLA client - you can find an open source client here [Universal SiLA Client](https://gitlab.com/SiLA2/universal-sila-client/sila_universal_client)
+  Note: if you are usuning the Universal Sila Client you will need [java 17](https://www.oracle.com/java/technologies/downloads/#jdk17-windows)
 
 ### Folder structure
 
@@ -42,7 +42,7 @@ The name of the SiLA server module should follow the following structure:
 
 Note: the information to name the device might not always be available and in some cases to remove some of it might make more sense. The above should be followed to the extent possible and servers should be treated case by case.
 
-Example:  `sila2-drv-shaker-thermoscientific-teleshake1536`
+Example: `sila2-drv-shaker-thermoscientific-teleshake1536`
 
 ### Install and run driver
 
@@ -52,7 +52,7 @@ python -m venv venv
 ./venv/Scripts/activate
 
 # Install package dependencies
-python -m pip install -r requirements.txt
+python -m pip install -r dev-requirements.txt
 
 # Generate required SiLA2 boilerplate
 codegen.bat
@@ -66,7 +66,7 @@ python -m sila2.driver.thermoscientific.teleshake1536 --port 50050
 
 ### Connect to the SiLA server
 
-Run the Universal SiLA Client. You can run the SiLA client following the instructions here 
+Run the Universal SiLA Client. You can run the SiLA client following the instructions here
 Open your browser and connect to `localhost/8080`, you should see the following screen:
 Press add server.
 You should see the server added in the bottom of the screen. Select it and then click the play button on the left side of the screen.
@@ -79,5 +79,5 @@ Authors and acknowledgment
 Show your appreciation to those who have contributed to the project.
 
 ### Project status
-All the drivers here are functional, however they are still under development to comply with data models and standards.
 
+All the drivers here are functional, however they are still under development to comply with data models and standards.
