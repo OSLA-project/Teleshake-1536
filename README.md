@@ -24,14 +24,13 @@ root/
 ├── feature_xml
 │   ├── *.sila.xml
 ├── src
-│   └── sila2
-│       └── driver
-│           └── manufacturer
-│               └── device_name
-│                   └── feature_implementations
-│                   └── generated
-│                   └── server.py
-│                   └── ...
+│   └── sila2_driver
+│       └── manufacturer
+│           └── device_name
+│               └── feature_implementations
+│               └── generated
+│               └── server.py
+│               └── ...
 └── tests
 ```
 
@@ -61,7 +60,7 @@ codegen.bat
 python -m pip install .
 
 # Start driver on port 50050
-python -m sila2.driver.thermoscientific.teleshake1536 --port 50050
+python -m sila2_driver.thermoscientific.teleshake1536 --port 50050
 ```
 
 ### Connect to the SiLA server
