@@ -13,12 +13,7 @@ from .cancelcontroller import (
     OperationNotSupported,
 )
 from .settingsservice import SettingsServiceClient
-from .shakecontroller import (
-    CancelledError,
-    ShakeControllerClient,
-    ShakeControllerFeature,
-    TimeoutError,
-)
+from .shakecontroller import CancelledError, ShakeControllerClient, ShakeControllerFeature, TimeoutError
 from .simulationcontroller import (
     SimulationControllerClient,
     SimulationControllerFeature,
