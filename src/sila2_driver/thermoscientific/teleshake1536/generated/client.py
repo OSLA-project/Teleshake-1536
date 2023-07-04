@@ -13,14 +13,7 @@ from .cancelcontroller import (
     OperationNotSupported,
 )
 from .settingsservice import SettingsServiceClient
-from .shakecontroller import (
-    CancelledError,
-    ParameterOutOfRangeError,
-    SerialCommunicationError,
-    ShakeControllerClient,
-    ShakeControllerFeature,
-    TimeoutError,
-)
+from .shakecontroller import CancelledError, ShakeControllerClient, ShakeControllerFeature, TimeoutError
 from .simulationcontroller import (
     SimulationControllerClient,
     SimulationControllerFeature,
@@ -30,7 +23,6 @@ from .simulationcontroller import (
 
 
 class Client(SilaClient):
-
     CancelController: CancelControllerClient
 
     SimulationController: SimulationControllerClient
@@ -41,12 +33,8 @@ class Client(SilaClient):
 
     _expected_features: Set[FullyQualifiedFeatureIdentifier] = {
         FullyQualifiedFeatureIdentifier("org.silastandard/core/SiLAService/v1"),
-        FullyQualifiedFeatureIdentifier(
-            "org.silastandard/core.commands/CancelController/v1"
-        ),
-        FullyQualifiedFeatureIdentifier(
-            "org.silastandard/core/SimulationController/v1"
-        ),
+        FullyQualifiedFeatureIdentifier("org.silastandard/core.commands/CancelController/v1"),
+        FullyQualifiedFeatureIdentifier("org.silastandard/core/SimulationController/v1"),
         FullyQualifiedFeatureIdentifier("org.silastandard/examples/SettingsService/v1"),
         FullyQualifiedFeatureIdentifier("org.silastandard/examples/ShakeController/v1"),
     }
@@ -55,9 +43,7 @@ class Client(SilaClient):
         super().__init__(*args, **kwargs)
 
         self._register_defined_execution_error_class(
-            CancelControllerFeature.defined_execution_errors[
-                "InvalidCommandExecutionUUID"
-            ],
+            CancelControllerFeature.defined_execution_errors["InvalidCommandExecutionUUID"],
             InvalidCommandExecutionUUID,
         )
 
@@ -67,9 +53,7 @@ class Client(SilaClient):
         )
 
         self._register_defined_execution_error_class(
-            SimulationControllerFeature.defined_execution_errors[
-                "StartSimulationModeFailed"
-            ],
+            SimulationControllerFeature.defined_execution_errors["StartSimulationModeFailed"],
             StartSimulationModeFailed,
         )
 
@@ -81,16 +65,6 @@ class Client(SilaClient):
         self._register_defined_execution_error_class(
             ShakeControllerFeature.defined_execution_errors["CancelledError"],
             CancelledError,
-        )
-
-        self._register_defined_execution_error_class(
-            ShakeControllerFeature.defined_execution_errors["ParameterOutOfRangeError"],
-            ParameterOutOfRangeError,
-        )
-
-        self._register_defined_execution_error_class(
-            ShakeControllerFeature.defined_execution_errors["SerialCommunicationError"],
-            SerialCommunicationError,
         )
 
         self._register_defined_execution_error_class(

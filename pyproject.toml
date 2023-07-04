@@ -1,6 +1,6 @@
 [project]
 name = "sila2-drv-shaker-thermoscientific-teleshake1536"
-version = "1.0.0"
+version = "1.0.1"
 authors = [
   { name="Erik Trygg", email="etrg@novonordisk.com" },
 ]
@@ -18,10 +18,10 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["sila2*"]
+include = ["sila2_driver*"]
 
 [tool.setuptools.package-data]
-"sila2.driver.thermoscientific.teleshake1536.generated" = [
+"sila2_driver.thermoscientific.teleshake1536.generated" = [
     "*/*.sila.xml",
     "*/*.proto",
 ]
