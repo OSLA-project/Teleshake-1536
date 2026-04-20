@@ -27,7 +27,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pytest "sila2[codegen]==0.12.2"
-        pip install .
+        pip install -e .
     - name: Generate boilerplate
       run: |
         ./codegen.sh
