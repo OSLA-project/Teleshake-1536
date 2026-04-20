@@ -18,8 +18,8 @@ dependencies = [
     "ifaddr==0.2.0",
     "protobuf~=6.31.1",
     "pyserial==3.5",
-    "sila2==0.10.1",
-    "typer==0.7.0",
+    "sila2==0.12.2",
+    "typer>=0.9.0",
     "typing-extensions>=4.12.2",
     "zeroconf==0.39.4",
 ]
@@ -44,5 +44,10 @@ line-length = 120
 [tool.isort]
 line_length = 120
 profile = "black"
+
+[dependency-groups]
+dev = [
+    "sila2[codegen]==0.12.2",
+]
 
 

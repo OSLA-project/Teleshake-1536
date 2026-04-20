@@ -1,8 +1,8 @@
 import unittest
 from queue import Queue
 
-from sila2.driver.thermoscientific.teleshake1536.api.frame import Frame
-from sila2.driver.thermoscientific.teleshake1536.api.teleshake import Teleshake1536
+from sila2_driver.thermoscientific.teleshake1536.api.frame import Frame
+from sila2_driver.thermoscientific.teleshake1536.api.teleshake import Teleshake1536
 
 
 class TeleShake1536_IO:
