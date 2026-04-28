@@ -14,6 +14,14 @@
     <Description>Run the shaker for a defined runtime with the requested speed and power.</Description>
     <Observable>Yes</Observable>
     <Parameter>
+      <Identifier>ShakerId</Identifier>
+      <DisplayName>Shaker ID</DisplayName>
+      <Description>ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker.</Description>
+      <DataType>
+        <Basic>Integer</Basic>
+      </DataType>
+    </Parameter>
+    <Parameter>
       <Identifier>Runtime</Identifier>
       <DisplayName>Runtime (s)</DisplayName>
       <Description>Runtime in seconds</Description>
@@ -101,7 +109,6 @@
           </Constraints>
         </Constrained>
       </DataType>
-
     </IntermediateResponse>
     <DefinedExecutionErrors>
       <Identifier>CancelledError</Identifier>
@@ -113,6 +120,14 @@
     <DisplayName>Stop Shaking</DisplayName>
     <Description>Stop shaking</Description>
     <Observable>No</Observable>
+    <Parameter>
+      <Identifier>ShakerId</Identifier>
+      <DisplayName>Shaker ID</DisplayName>
+      <Description>ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker.</Description>
+      <DataType>
+        <Basic>Integer</Basic>
+      </DataType>
+    </Parameter>
     <DefinedExecutionErrors>
       <Identifier>CancelledError</Identifier>
       <Identifier>TimeoutError</Identifier>
@@ -123,6 +138,14 @@
     <DisplayName>Start Shaking</DisplayName>
     <Description>Run the shaker for an undefined amount of time with the requested speed and power.</Description>
     <Observable>No</Observable>
+    <Parameter>
+      <Identifier>ShakerId</Identifier>
+      <DisplayName>Shaker ID</DisplayName>
+      <Description>ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker.</Description>
+      <DataType>
+        <Basic>Integer</Basic>
+      </DataType>
+    </Parameter>
     <Parameter>
       <Identifier>TargetSpeed</Identifier>
       <DisplayName>Target Speed (rpm)</DisplayName>
@@ -182,18 +205,42 @@
     <DisplayName>GoHome</DisplayName>
     <Description>Move the plate to home position.</Description>
     <Observable>No</Observable>
+    <Parameter>
+      <Identifier>ShakerId</Identifier>
+      <DisplayName>Shaker ID</DisplayName>
+      <Description>ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker.</Description>
+      <DataType>
+        <Basic>Integer</Basic>
+      </DataType>
+    </Parameter>
   </Command>
   <Command>
     <Identifier>UnlockPlate</Identifier>
     <DisplayName>Unlock Plate</DisplayName>
     <Description>Unlock plate</Description>
     <Observable>No</Observable>
+    <Parameter>
+      <Identifier>ShakerId</Identifier>
+      <DisplayName>Shaker ID</DisplayName>
+      <Description>ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker.</Description>
+      <DataType>
+        <Basic>Integer</Basic>
+      </DataType>
+    </Parameter>
   </Command>
   <Command>
     <Identifier>LockPlate</Identifier>
     <DisplayName>Lock Plate</DisplayName>
     <Description>Lock the plate</Description>
     <Observable>No</Observable>
+    <Parameter>
+      <Identifier>ShakerId</Identifier>
+      <DisplayName>Shaker ID</DisplayName>
+      <Description>ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker.</Description>
+      <DataType>
+        <Basic>Integer</Basic>
+      </DataType>
+    </Parameter>
   </Command>
 
   <DefinedExecutionError>
