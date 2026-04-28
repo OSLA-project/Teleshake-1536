@@ -1,3 +1,4 @@
+[![Python application](https://github.com/OSLA-project/Teleshake-1536/actions/workflows/python-app.yml/badge.svg)](https://github.com/OSLA-project/Teleshake-1536/actions/workflows/python-app.yml)
 # SiLA Library
 
 Library of SiLA2 drivers for laboratory automation
