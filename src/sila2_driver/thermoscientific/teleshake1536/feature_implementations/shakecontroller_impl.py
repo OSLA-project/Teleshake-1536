@@ -76,7 +76,7 @@ class ShakeControllerImpl(ShakeControllerBase):
     def _IsSimulationActive(self):
         return SimulationControllerImpl.SimulationActive
 
-    def StopShaking(self, *, metadata: MetadataDict) -> StopShaking_Responses:
+    def StopShaking(self, *, shakerId: int, metadata: MetadataDict) -> StopShaking_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
                 shaker.StopDevice()
@@ -91,7 +91,7 @@ class ShakeControllerImpl(ShakeControllerBase):
             raise ValidationError(repr(ex))
         return StartShaking_Responses()
 
-    def StartShaking(self, TargetSpeed: float, TargetPower: float, *, metadata: MetadataDict) -> StartShaking_Responses:
+    def StartShaking(self, shakerId: int,  TargetSpeed: float, TargetPower: float, *, metadata: MetadataDict) -> StartShaking_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
                 shaker.SetRPM(TargetSpeed)
@@ -143,6 +143,7 @@ class ShakeControllerImpl(ShakeControllerBase):
 
     def ShakeForTime(
         self,
+        ShakerId: int,
         Runtime: int,
         TargetSpeed: float,
         TargetPower: float,

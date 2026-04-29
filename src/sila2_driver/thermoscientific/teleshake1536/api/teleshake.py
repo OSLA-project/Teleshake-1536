@@ -5,7 +5,7 @@ from typing import Union
 
 from serial import Serial
 
-from .frame import Frame, FrameError, StatusByte
+from .frame import ControlByte, Frame, FrameError, StatusByte
 from .rpm_converter import Convert
 
 
@@ -77,7 +77,8 @@ class Teleshake:
     def GetLastError(self) -> str:
         raise NotImplementedError("This function should be overridden in sub-classes")
 
-    def SendFrame(self, msg: Frame):
+    def SendFrame(self, msg: Frame, addr: int = 0):
+        msg = Frame.Create(msg.Cmd, [msg.Data0, msg.Data1, msg.Data2], ctrl_byte=ControlByte(addr=addr))
         self._ser.read_all()
         self._ser.write(msg.Flatten())
         self._ser.flush()
