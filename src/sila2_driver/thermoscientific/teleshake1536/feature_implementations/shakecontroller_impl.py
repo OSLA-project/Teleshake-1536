@@ -8,7 +8,10 @@ from typing import TYPE_CHECKING
 
 from sila2.framework.errors.undefined_execution_error import UndefinedExecutionError
 from sila2.framework.errors.validation_error import ValidationError
-from sila2.server import MetadataDict, ObservableCommandInstanceWithIntermediateResponses
+from sila2.server import (
+    MetadataDict,
+    ObservableCommandInstanceWithIntermediateResponses,
+)
 
 from ..api.teleshake import FrameError, InternalError, ParameterError, Teleshake1536
 from ..feature_implementations.cancelcontroller_impl import CancelControllerImpl
@@ -25,7 +28,9 @@ from ..generated.shakecontroller import (
     UnlockPlate_Responses,
 )
 from ..generated.shakecontroller.shakecontroller_errors import CancelledError
-from ..generated.shakecontroller.shakecontroller_errors import TimeoutError as TimeoutErr
+from ..generated.shakecontroller.shakecontroller_errors import (
+    TimeoutError as TimeoutErr,
+)
 
 if TYPE_CHECKING:
     from ..server import Server
@@ -76,7 +81,9 @@ class ShakeControllerImpl(ShakeControllerBase):
     def _IsSimulationActive(self):
         return SimulationControllerImpl.SimulationActive
 
-    def StopShaking(self, *, shakerId: int, metadata: MetadataDict) -> StopShaking_Responses:
+    def StopShaking(
+        self, *, shakerId: int, metadata: MetadataDict
+    ) -> StopShaking_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
                 shaker.StopDevice()
@@ -91,7 +98,14 @@ class ShakeControllerImpl(ShakeControllerBase):
             raise ValidationError(repr(ex))
         return StartShaking_Responses()
 
-    def StartShaking(self, shakerId: int,  TargetSpeed: float, TargetPower: float, *, metadata: MetadataDict) -> StartShaking_Responses:
+    def StartShaking(
+        self,
+        shakerId: int,
+        TargetSpeed: float,
+        TargetPower: float,
+        *,
+        metadata: MetadataDict,
+    ) -> StartShaking_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
                 shaker.SetRPM(TargetSpeed)
@@ -149,7 +163,9 @@ class ShakeControllerImpl(ShakeControllerBase):
         TargetPower: float,
         *,
         metadata: MetadataDict,
-        instance: ObservableCommandInstanceWithIntermediateResponses[ShakeForTime_IntermediateResponses],
+        instance: ObservableCommandInstanceWithIntermediateResponses[
+            ShakeForTime_IntermediateResponses
+        ],
     ) -> ShakeForTime_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
@@ -177,7 +193,9 @@ class ShakeControllerImpl(ShakeControllerBase):
                     if time_left < 0:
                         time_left = 0.0
 
-                    instance.send_intermediate_response(ShakeForTime_IntermediateResponses(time_left))
+                    instance.send_intermediate_response(
+                        ShakeForTime_IntermediateResponses(time_left)
+                    )
 
                 shaker.StopDevice()
 

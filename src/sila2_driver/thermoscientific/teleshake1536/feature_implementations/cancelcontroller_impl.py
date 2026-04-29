@@ -6,7 +6,12 @@ from typing import TYPE_CHECKING
 
 from sila2.server import MetadataDict
 
-from ..generated.cancelcontroller import UUID, CancelAll_Responses, CancelCommand_Responses, CancelControllerBase
+from ..generated.cancelcontroller import (
+    UUID,
+    CancelAll_Responses,
+    CancelCommand_Responses,
+    CancelControllerBase,
+)
 
 if TYPE_CHECKING:
     from ..server import Server
@@ -19,7 +24,9 @@ class CancelControllerImpl(CancelControllerBase):
         super().__init__(parent_server=parent_server)
         CancelControllerImpl.registeredCBs = []
 
-    def CancelCommand(self, CommandExecutionUUID: UUID, *, metadata: MetadataDict) -> CancelCommand_Responses:
+    def CancelCommand(
+        self, CommandExecutionUUID: UUID, *, metadata: MetadataDict
+    ) -> CancelCommand_Responses:
         raise NotImplementedError  # TODO
 
     def CancelAll(self, *, metadata: MetadataDict) -> CancelAll_Responses:
