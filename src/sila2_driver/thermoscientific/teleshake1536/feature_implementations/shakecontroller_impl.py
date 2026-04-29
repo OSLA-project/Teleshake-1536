@@ -143,6 +143,7 @@ class ShakeControllerImpl(ShakeControllerBase):
 
     def ShakeForTime(
         self,
+        ShakerId: int,
         Runtime: int,
         TargetSpeed: float,
         TargetPower: float,

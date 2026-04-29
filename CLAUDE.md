@@ -15,7 +15,9 @@ Code style: Black and isort, both with `line-length = 120`.
 
 ## Architecture
 
-This is a SiLA2 driver for the Thermo Scientific Teleshaker 1536. The development workflow is:
+This is a SiLA2 driver for the Thermo Scientific Teleshaker 1536. Documentation on the 
+python implementation of the sila framework can be found at https://sila2.gitlab.io/sila_python/ .
+The development workflow is:
 
 **Edit XML → Run codegen → Implement base classes → Done**
 
@@ -37,6 +39,8 @@ src/sila2_driver/thermoscientific/teleshake1536/
 **`api/`** handles serial communication: `frame.py` defines the 6-byte wire format (Ctrl, Cmd, Data2, Data1, Data0, CRC), `teleshake.py` exposes high-level commands (`SetRPM`, `StartDevice`, etc.), and `rpm_converter.py` maps RPM values to cycle times via a lookup table.
 
 **Simulation mode** is controlled by `SimulationControllerImpl` — when active, `ShakeControllerImpl` uses a dummy serial object instead of a real device, which is also how tests work.
+
+
 
 ## SiLA2 Feature XML
 
