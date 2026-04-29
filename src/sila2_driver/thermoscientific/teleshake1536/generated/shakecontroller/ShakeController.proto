@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+import "SiLAFramework.proto";
+
+package sila2.org.silastandard.examples.shakecontroller.v1;
+
+/* Features to control shaking */
+service ShakeController {
+  /* Run the shaker for a defined runtime with the requested speed and power. */
+  rpc ShakeForTime (sila2.org.silastandard.examples.shakecontroller.v1.ShakeForTime_Parameters) returns (sila2.org.silastandard.CommandConfirmation) {}
+  /* Monitor the state of ShakeForTime */
+  rpc ShakeForTime_Info (sila2.org.silastandard.CommandExecutionUUID) returns (stream sila2.org.silastandard.ExecutionInfo) {}
+  /* Retrieve intermediate responses of ShakeForTime */
+  rpc ShakeForTime_Intermediate (sila2.org.silastandard.CommandExecutionUUID) returns (stream sila2.org.silastandard.examples.shakecontroller.v1.ShakeForTime_IntermediateResponses) {}
+  /* Retrieve result of ShakeForTime */
+  rpc ShakeForTime_Result(sila2.org.silastandard.CommandExecutionUUID) returns (sila2.org.silastandard.examples.shakecontroller.v1.ShakeForTime_Responses) {}
+  /* Stop shaking */
+  rpc StopShaking (sila2.org.silastandard.examples.shakecontroller.v1.StopShaking_Parameters) returns (sila2.org.silastandard.examples.shakecontroller.v1.StopShaking_Responses) {}
+  /* Run the shaker for an undefined amount of time with the requested speed and power. */
+  rpc StartShaking (sila2.org.silastandard.examples.shakecontroller.v1.StartShaking_Parameters) returns (sila2.org.silastandard.examples.shakecontroller.v1.StartShaking_Responses) {}
+  /* Move the plate to home position. */
+  rpc GoHome (sila2.org.silastandard.examples.shakecontroller.v1.GoHome_Parameters) returns (sila2.org.silastandard.examples.shakecontroller.v1.GoHome_Responses) {}
+  /* Unlock plate */
+  rpc UnlockPlate (sila2.org.silastandard.examples.shakecontroller.v1.UnlockPlate_Parameters) returns (sila2.org.silastandard.examples.shakecontroller.v1.UnlockPlate_Responses) {}
+  /* Lock the plate */
+  rpc LockPlate (sila2.org.silastandard.examples.shakecontroller.v1.LockPlate_Parameters) returns (sila2.org.silastandard.examples.shakecontroller.v1.LockPlate_Responses) {}
+}
+
+/* Parameters for ShakeForTime */
+message ShakeForTime_Parameters {
+  sila2.org.silastandard.Integer ShakerId = 1;  /* ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker. */
+  sila2.org.silastandard.Integer Runtime = 2;  /* Runtime in seconds */
+  sila2.org.silastandard.Real TargetSpeed = 3;  /* Target speed in rpm */
+  sila2.org.silastandard.Real TargetPower = 4;  /* Target power in percent */
+}
+
+/* Responses of ShakeForTime */
+message ShakeForTime_Responses {
+}
+
+/* Intermediate responses of ShakeForTime */
+message ShakeForTime_IntermediateResponses {
+  sila2.org.silastandard.Real TimeLeft = 1;  /* Time left in seconds */
+}
+
+/* Parameters for StopShaking */
+message StopShaking_Parameters {
+  sila2.org.silastandard.Integer ShakerId = 1;  /* ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker. */
+}
+
+/* Responses of StopShaking */
+message StopShaking_Responses {
+}
+
+/* Parameters for StartShaking */
+message StartShaking_Parameters {
+  sila2.org.silastandard.Integer ShakerId = 1;  /* ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker. */
+  sila2.org.silastandard.Real TargetSpeed = 2;  /* Target speed in rpm */
+  sila2.org.silastandard.Real TargetPower = 3;  /* Target power in percent */
+}
+
+/* Responses of StartShaking */
+message StartShaking_Responses {
+}
+
+/* Parameters for GoHome */
+message GoHome_Parameters {
+  sila2.org.silastandard.Integer ShakerId = 1;  /* ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker. */
+}
+
+/* Responses of GoHome */
+message GoHome_Responses {
+}
+
+/* Parameters for UnlockPlate */
+message UnlockPlate_Parameters {
+  sila2.org.silastandard.Integer ShakerId = 1;  /* ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker. */
+}
+
+/* Responses of UnlockPlate */
+message UnlockPlate_Responses {
+}
+
+/* Parameters for LockPlate */
+message LockPlate_Parameters {
+  sila2.org.silastandard.Integer ShakerId = 1;  /* ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker. */
+}
+
+/* Responses of LockPlate */
+message LockPlate_Responses {
+}
