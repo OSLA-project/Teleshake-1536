@@ -34,7 +34,6 @@ class Teleshake:
         parity: str = "N",
         stopbits: int = 1,
     ):
-
         """Create an object for communication with a Teleshake 1536 over serial port
 
         Args:
@@ -78,7 +77,9 @@ class Teleshake:
         raise NotImplementedError("This function should be overridden in sub-classes")
 
     def SendFrame(self, msg: Frame, addr: int = 0):
-        msg = Frame.Create(msg.Cmd, [msg.Data0, msg.Data1, msg.Data2], ctrl_byte=ControlByte(addr=addr))
+        msg = Frame.Create(
+            msg.Cmd, [msg.Data0, msg.Data1, msg.Data2], ctrl_byte=ControlByte(addr=addr)
+        )
         self._ser.read_all()
         self._ser.write(msg.Flatten())
         self._ser.flush()
@@ -88,10 +89,14 @@ class Teleshake:
 
     def ValidateReply(self, repl: Frame, msg: Frame):
         if repl.Cmd != msg.Cmd:
-            raise FrameError(f"Command code mismatch error: 0x{repl.Cmd:02x} != 0x{msg.Cmd:02x}")
+            raise FrameError(
+                f"Command code mismatch error: 0x{repl.Cmd:02x} != 0x{msg.Cmd:02x}"
+            )
 
         if repl.Ctrl.addr != msg.Ctrl.addr:
-            raise FrameError(f"Address mismatch error: 0b{repl.Ctrl.addr:04b} != 0b{msg.Ctrl.addr:04b}")
+            raise FrameError(
+                f"Address mismatch error: 0b{repl.Ctrl.addr:04b} != 0b{msg.Ctrl.addr:04b}"
+            )
 
         if repl.Ctrl.error:
             raise InternalError(self.GetLastError())

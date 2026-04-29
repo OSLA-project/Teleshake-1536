@@ -27,7 +27,9 @@ def main(
         help="The server UUID [default: generate]",
         show_default=False,
     ),
-    disable_discovery: bool = Option(False, "--disable-discovery", help="Disable SiLA Server Discovery"),
+    disable_discovery: bool = Option(
+        False, "--disable-discovery", help="Disable SiLA Server Discovery"
+    ),
     insecure: bool = Option(False, "--insecure", help="Start without encryption"),
     private_key_file: Optional[str] = Option(
         None,
@@ -35,7 +37,9 @@ def main(
         "--private-key-file",
         help="Private key file (e.g. 'server-key.pem')",
     ),
-    cert_file: Optional[str] = Option(None, "-c", "--cert-file", help="Certificate file (e.g. 'server-cert.pem')"),
+    cert_file: Optional[str] = Option(
+        None, "-c", "--cert-file", help="Certificate file (e.g. 'server-cert.pem')"
+    ),
     ca_file_for_discovery: Optional[str] = Option(
         None,
         "--ca-file-for-discovery",
@@ -50,17 +54,31 @@ def main(
     debug: bool = Option(False, "--debug", help="Enable debug logging"),
 ):
     # validate parameters
-    if (insecure or ca_export_file is not None) and (cert_file is not None or private_key_file is not None):
-        raise BadParameter("Cannot use --insecure or --ca-export-file with --private-key-file or --cert-file")
-    if (cert_file is None and private_key_file is not None) or (private_key_file is None and cert_file is not None):
-        raise BadParameter("Either provide both --private-key-file and --cert-file, or none of them")
+    if (insecure or ca_export_file is not None) and (
+        cert_file is not None or private_key_file is not None
+    ):
+        raise BadParameter(
+            "Cannot use --insecure or --ca-export-file with --private-key-file or --cert-file"
+        )
+    if (cert_file is None and private_key_file is not None) or (
+        private_key_file is None and cert_file is not None
+    ):
+        raise BadParameter(
+            "Either provide both --private-key-file and --cert-file, or none of them"
+        )
     if insecure and ca_export_file is not None:
         raise BadParameter("Cannot use --export-ca-file with --insecure")
 
     # prepare server parameters
     cert = open(cert_file, "rb").read() if cert_file is not None else None
-    private_key = open(private_key_file, "rb").read() if private_key_file is not None else None
-    ca_for_discovery = open(ca_file_for_discovery, "rb").read() if ca_file_for_discovery is not None else None
+    private_key = (
+        open(private_key_file, "rb").read() if private_key_file is not None else None
+    )
+    ca_for_discovery = (
+        open(ca_file_for_discovery, "rb").read()
+        if ca_file_for_discovery is not None
+        else None
+    )
     parsed_server_uuid = UUID(server_uuid) if server_uuid is not None else None
 
     # logging setup
@@ -70,7 +88,9 @@ def main(
     server = Server(server_uuid=parsed_server_uuid)
     try:
         if insecure:
-            server.start_insecure(ip_address, port, enable_discovery=not disable_discovery)
+            server.start_insecure(
+                ip_address, port, enable_discovery=not disable_discovery
+            )
         else:
             server.start(
                 ip_address,
@@ -98,7 +118,9 @@ def main(
         logger.info("Server shutdown complete")
 
 
-def initialize_logging(*, quiet: bool = False, verbose: bool = False, debug: bool = False):
+def initialize_logging(
+    *, quiet: bool = False, verbose: bool = False, debug: bool = False
+):
     if sum((quiet, verbose, debug)) > 1:
         raise BadParameter("--quiet, --verbose and --debug are mutually exclusive")
 
@@ -110,7 +132,9 @@ def initialize_logging(*, quiet: bool = False, verbose: bool = False, debug: boo
     if quiet:
         level = logging.ERROR
 
-    logging.basicConfig(level=level, format="%(asctime)s:%(levelname)s:%(name)s:%(message)s")
+    logging.basicConfig(
+        level=level, format="%(asctime)s:%(levelname)s:%(name)s:%(message)s"
+    )
     logger.setLevel(logging.INFO)
     logging.getLogger("xmlschema").setLevel(logging.WARNING)
 

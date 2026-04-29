@@ -24,7 +24,9 @@ class SimulationControllerImpl(SimulationControllerBase):
     def get_SimulationMode(self, *, metadata: MetadataDict) -> bool:
         return SimulationControllerImpl.SimulationActive
 
-    def StartSimulationMode(self, *, metadata: MetadataDict) -> StartSimulationMode_Responses:
+    def StartSimulationMode(
+        self, *, metadata: MetadataDict
+    ) -> StartSimulationMode_Responses:
         SimulationControllerImpl.SimulationActive = True
 
     def StartRealMode(self, *, metadata: MetadataDict) -> StartRealMode_Responses:
