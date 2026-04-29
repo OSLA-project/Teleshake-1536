@@ -47,7 +47,9 @@ profile = "black"
 
 [dependency-groups]
 dev = [
+    "pre-commit>=4.0.0",
     "pytest>=9.0.3",
+    "ruff>=0.9.0",
     "sila2[codegen]==0.12.2",
 ]
 
