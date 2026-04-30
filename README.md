@@ -72,12 +72,7 @@ Press add server.
 You should see the server added in the bottom of the screen. Select it and then click the play button on the left side of the screen.
 Now you should be able to run the driver commands.
 
-### Contributing
+### Development install
+uv is used for dependency and environment management. 
 
-We are always looking to contribution for new drivers, we want to expand this library as much as possible to make automation easy, standardized and available to anyone. All new driver should follow the folder structure presented above. All drivers should follow our naming convention as well as the data format for output. If you are in doubt, please contribute with new drivers and we will help and make them compliant with our standards.
-Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-### Project status
-
-All the drivers here are functional, however they are still under development to comply with data models and standards.
+uv run pre-commit install
