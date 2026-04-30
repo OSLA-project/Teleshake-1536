@@ -89,7 +89,7 @@ class ControlByte:
     def Unflatten(data: int) -> ControlByte:
         ControlByte.Validate(data)
         return ControlByte(
-            addr=data & 0x00001111,
+            addr=data & 0b00001111,
             error=(data & 0b00010000) != 0,
             dirty=(data & 0b00100000) != 0,
             mode=(data & 0b01000000) != 0,
