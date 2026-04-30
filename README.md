@@ -73,6 +73,15 @@ You should see the server added in the bottom of the screen. Select it and then 
 Now you should be able to run the driver commands.
 
 ### Development install
-uv is used for dependency and environment management. 
+[uv](https://docs.astral.sh/uv/) is used for dependency and environment management. In order to install the drivers and
+set up your python environment, run the following in the root of the repository:
 
+```shell
+uv sync
+```
+
+This project uses a pre-commit hook to check code formatting and linting. To set up the pre-commit hook, run:
+
+```shell
 uv run pre-commit install
+```
