@@ -1,4 +1,4 @@
-[![Python application](https://github.com/OSLA-project/Teleshake-1536/actions/workflows/python-app.yml/badge.svg)](https://github.com/OSLA-project/Teleshake-1536/actions/workflows/python-app.yml)
+[![Tests](https://github.com/OSLA-project/Teleshake-1536/actions/workflows/tests.yml/badge.svg)](https://github.com/OSLA-project/Teleshake-1536/actions/workflows/tests.yml)
 # Teleshake 1536 SiLA2 Driver
 This repository contains a SiLA2 driver for the Teleshake 1536 microplate shaker. It has been forked from 
 [the original](https://gitlab.com/sila-driver-group/teleshake) and functionality has been extended to support multiple
