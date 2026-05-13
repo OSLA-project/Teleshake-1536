@@ -18,7 +18,7 @@ dependencies = [
     "ifaddr==0.2.0",
     "protobuf~=6.31.1",
     "pyserial==3.5",
-    "sila2[cryptography]==0.12.2",
+    "sila2[cryptography]>=0.13.0",
     "typer>=0.9.0",
     "typing-extensions>=4.12.2",
     "zeroconf>=0.39.4",
@@ -50,7 +50,7 @@ dev = [
     "pre-commit>=4.0.0",
     "pytest>=9.0.3",
     "ruff>=0.9.0",
-    "sila2[codegen]==0.12.2",
+    "sila2[codegen]>=0.13.0",
 ]
 
 
