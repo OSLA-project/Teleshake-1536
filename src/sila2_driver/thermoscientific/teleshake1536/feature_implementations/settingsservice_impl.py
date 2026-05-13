@@ -20,5 +20,7 @@ class SettingsServiceImpl(SettingsServiceBase):
     def get_SerialPort(self, *, metadata: MetadataDict) -> str:
         return SettingsServiceImpl.PortName
 
-    def SetSerialPort(self, PortName: str, *, metadata: MetadataDict) -> SetSerialPort_Responses:
+    def SetSerialPort(
+        self, PortName: str, *, metadata: MetadataDict
+    ) -> SetSerialPort_Responses:
         SettingsServiceImpl.PortName = PortName

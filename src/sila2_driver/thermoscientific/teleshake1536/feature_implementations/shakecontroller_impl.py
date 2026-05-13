@@ -8,7 +8,10 @@ from typing import TYPE_CHECKING
 
 from sila2.framework.errors.undefined_execution_error import UndefinedExecutionError
 from sila2.framework.errors.validation_error import ValidationError
-from sila2.server import MetadataDict, ObservableCommandInstanceWithIntermediateResponses
+from sila2.server import (
+    MetadataDict,
+    ObservableCommandInstanceWithIntermediateResponses,
+)
 
 from ..api.teleshake import FrameError, InternalError, ParameterError, Teleshake1536
 from ..feature_implementations.cancelcontroller_impl import CancelControllerImpl
@@ -25,7 +28,9 @@ from ..generated.shakecontroller import (
     UnlockPlate_Responses,
 )
 from ..generated.shakecontroller.shakecontroller_errors import CancelledError
-from ..generated.shakecontroller.shakecontroller_errors import TimeoutError as TimeoutErr
+from ..generated.shakecontroller.shakecontroller_errors import (
+    TimeoutError as TimeoutErr,
+)
 
 if TYPE_CHECKING:
     from ..server import Server
@@ -50,22 +55,22 @@ class ShakeControllerImpl(ShakeControllerBase):
             def __exit__(self, *args):
                 pass
 
-            def CloseClamp(self):
+            def CloseClamp(self, addr: int = 0):
                 pass
 
-            def OpenClamp(self):
+            def OpenClamp(self, addr: int = 0):
                 pass
 
-            def SetRPM(self, rpm):
+            def SetRPM(self, rpm, addr: int = 0):
                 pass
 
-            def SetPower(self, power):
+            def SetPower(self, power, addr: int = 0):
                 pass
 
-            def StartDevice(self):
+            def StartDevice(self, addr: int = 0):
                 pass
 
-            def StopDevice(self):
+            def StopDevice(self, addr: int = 0):
                 pass
 
         return Dummy()
@@ -76,10 +81,12 @@ class ShakeControllerImpl(ShakeControllerBase):
     def _IsSimulationActive(self):
         return SimulationControllerImpl.SimulationActive
 
-    def StopShaking(self, *, metadata: MetadataDict) -> StopShaking_Responses:
+    def StopShaking(
+        self, *, shakerId: int, metadata: MetadataDict
+    ) -> StopShaking_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
-                shaker.StopDevice()
+                shaker.StopDevice(addr=shakerId)
         except TimeoutError as ex:
             logger.exception(ex)
             raise TimeoutErr(repr(ex))
@@ -91,12 +98,19 @@ class ShakeControllerImpl(ShakeControllerBase):
             raise ValidationError(repr(ex))
         return StartShaking_Responses()
 
-    def StartShaking(self, TargetSpeed: float, TargetPower: float, *, metadata: MetadataDict) -> StartShaking_Responses:
+    def StartShaking(
+        self,
+        shakerId: int,
+        TargetSpeed: float,
+        TargetPower: float,
+        *,
+        metadata: MetadataDict,
+    ) -> StartShaking_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
-                shaker.SetRPM(TargetSpeed)
-                shaker.SetPower(TargetPower / 100)
-                shaker.StartDevice()
+                shaker.SetRPM(TargetSpeed, addr=shakerId)
+                shaker.SetPower(TargetPower / 100, addr=shakerId)
+                shaker.StartDevice(addr=shakerId)
         except TimeoutError as ex:
             logger.exception(ex)
             raise TimeoutErr(repr(ex))
@@ -108,13 +122,15 @@ class ShakeControllerImpl(ShakeControllerBase):
             raise ValidationError(repr(ex))
         return StartShaking_Responses()
 
-    def GoHome(self, *, metadata: MetadataDict) -> GoHome_Responses:
+    def GoHome(self, *, shakerId: int, metadata: MetadataDict) -> GoHome_Responses:
         return GoHome_Responses()
 
-    def UnlockPlate(self, *, metadata: MetadataDict) -> UnlockPlate_Responses:
+    def UnlockPlate(
+        self, *, shakerId: int, metadata: MetadataDict
+    ) -> UnlockPlate_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
-                shaker.OpenClamp()
+                shaker.OpenClamp(addr=shakerId)
         except TimeoutError as ex:
             logger.exception(ex)
             raise TimeoutErr(repr(ex))
@@ -126,10 +142,12 @@ class ShakeControllerImpl(ShakeControllerBase):
             raise ValidationError(repr(ex))
         return UnlockPlate_Responses()
 
-    def LockPlate(self, *, metadata: MetadataDict) -> LockPlate_Responses:
+    def LockPlate(
+        self, *, shakerId: int, metadata: MetadataDict
+    ) -> LockPlate_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
-                shaker.CloseClamp()
+                shaker.CloseClamp(addr=shakerId)
         except TimeoutError as ex:
             logger.exception(ex)
             raise TimeoutErr(repr(ex))
@@ -143,26 +161,29 @@ class ShakeControllerImpl(ShakeControllerBase):
 
     def ShakeForTime(
         self,
+        ShakerId: int,
         Runtime: int,
         TargetSpeed: float,
         TargetPower: float,
         *,
         metadata: MetadataDict,
-        instance: ObservableCommandInstanceWithIntermediateResponses[ShakeForTime_IntermediateResponses],
+        instance: ObservableCommandInstanceWithIntermediateResponses[
+            ShakeForTime_IntermediateResponses
+        ],
     ) -> ShakeForTime_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
                 instance.begin_execution()  # set execution status from `waiting` to `running`
-                shaker.SetRPM(TargetSpeed)
-                shaker.SetPower(TargetPower / 100)
-                shaker.StartDevice()
+                shaker.SetRPM(TargetSpeed, addr=ShakerId)
+                shaker.SetPower(TargetPower / 100, addr=ShakerId)
+                shaker.StartDevice(addr=ShakerId)
 
                 while not self.cancelEvent.empty():  # Empty event queue
                     self.cancelEvent.get()
 
                 def HandleCancel():
                     if not self.cancelEvent.empty():
-                        shaker.StopDevice()
+                        shaker.StopDevice(addr=ShakerId)
                         raise CancelledError("Operation cancelled by user")
 
                 start = time()
@@ -176,9 +197,11 @@ class ShakeControllerImpl(ShakeControllerBase):
                     if time_left < 0:
                         time_left = 0.0
 
-                    instance.send_intermediate_response(ShakeForTime_IntermediateResponses(time_left))
+                    instance.send_intermediate_response(
+                        ShakeForTime_IntermediateResponses(time_left)
+                    )
 
-                shaker.StopDevice()
+                shaker.StopDevice(addr=ShakerId)
 
         except TimeoutError as ex:
             logger.exception(ex)

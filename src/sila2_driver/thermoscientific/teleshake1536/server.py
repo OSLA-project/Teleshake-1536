@@ -31,7 +31,9 @@ class Server(SilaServer):
         self.set_feature_implementation(CancelControllerFeature, self.cancelcontroller)
 
         self.simulationcontroller = SimulationControllerImpl(self)
-        self.set_feature_implementation(SimulationControllerFeature, self.simulationcontroller)
+        self.set_feature_implementation(
+            SimulationControllerFeature, self.simulationcontroller
+        )
 
         self.settingsservice = SettingsServiceImpl(self)
         self.set_feature_implementation(SettingsServiceFeature, self.settingsservice)
