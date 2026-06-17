@@ -18,6 +18,7 @@ from ..feature_implementations.cancelcontroller_impl import CancelControllerImpl
 from ..feature_implementations.settingsservice_impl import SettingsServiceImpl
 from ..feature_implementations.simulationcontroller_impl import SimulationControllerImpl
 from ..generated.shakecontroller import (
+    GetStatus_Responses,
     GoHome_Responses,
     LockPlate_Responses,
     ShakeControllerBase,
@@ -121,6 +122,20 @@ class ShakeControllerImpl(ShakeControllerBase):
             logger.exception(ex)
             raise ValidationError(repr(ex))
         return StartShaking_Responses()
+
+    def GetStatus(
+        self, ShakerId: int, *, metadata: MetadataDict
+    ) -> GetStatus_Responses:
+        try:
+            with self._CreateShakerInstance() as shaker:
+                status = shaker.GetStatus(addr=ShakerId)
+                return GetStatus_Responses(Status=str(status))
+        except (FrameError, IOError, InternalError) as ex:
+            logger.exception(ex)
+            raise UndefinedExecutionError(repr(ex))
+        except ParameterError as ex:
+            logger.exception(ex)
+            raise ValidationError(repr(ex))
 
     def GoHome(self, ShakerId: int, *, metadata: MetadataDict) -> GoHome_Responses:
         return GoHome_Responses()

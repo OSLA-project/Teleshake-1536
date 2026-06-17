@@ -4,6 +4,7 @@ from .shakecontroller_client import ShakeControllerClient
 from .shakecontroller_errors import CancelledError, TimeoutError
 from .shakecontroller_feature import ShakeControllerFeature
 from .shakecontroller_types import (
+    GetStatus_Responses,
     GoHome_Responses,
     LockPlate_Responses,
     ShakeForTime_IntermediateResponses,
@@ -22,6 +23,7 @@ __all__ = [
     "GoHome_Responses",
     "UnlockPlate_Responses",
     "LockPlate_Responses",
+    "GetStatus_Responses",
     "ShakeForTime_Responses",
     "ShakeForTime_IntermediateResponses",
     "CancelledError",

@@ -12,6 +12,7 @@ if TYPE_CHECKING:
     from typing import Iterable, Optional
 
     from shakecontroller_types import (
+        GetStatus_Responses,
         GoHome_Responses,
         LockPlate_Responses,
         ShakeForTime_IntermediateResponses,
@@ -85,6 +86,17 @@ class ShakeControllerClient:
     ) -> LockPlate_Responses:
         """
         Lock the plate
+        """
+        ...
+
+    def GetStatus(
+        self,
+        ShakerId: int,
+        *,
+        metadata: Optional[Iterable[ClientMetadataInstance]] = None,
+    ) -> GetStatus_Responses:
+        """
+        Get the current status of the shaker.
         """
         ...
 

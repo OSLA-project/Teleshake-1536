@@ -24,6 +24,8 @@ service ShakeController {
   rpc UnlockPlate (sila2.org.silastandard.examples.shakecontroller.v1.UnlockPlate_Parameters) returns (sila2.org.silastandard.examples.shakecontroller.v1.UnlockPlate_Responses) {}
   /* Lock the plate */
   rpc LockPlate (sila2.org.silastandard.examples.shakecontroller.v1.LockPlate_Parameters) returns (sila2.org.silastandard.examples.shakecontroller.v1.LockPlate_Responses) {}
+  /* Get the current status of the shaker. */
+  rpc GetStatus (sila2.org.silastandard.examples.shakecontroller.v1.GetStatus_Parameters) returns (sila2.org.silastandard.examples.shakecontroller.v1.GetStatus_Responses) {}
 }
 
 /* Parameters for ShakeForTime */
@@ -88,4 +90,14 @@ message LockPlate_Parameters {
 
 /* Responses of LockPlate */
 message LockPlate_Responses {
+}
+
+/* Parameters for GetStatus */
+message GetStatus_Parameters {
+  sila2.org.silastandard.Integer ShakerId = 1;  /* ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker. */
+}
+
+/* Responses of GetStatus */
+message GetStatus_Responses {
+  sila2.org.silastandard.String Status = 1;  /* Current status of the shaker as a human-readable string. */
 }
