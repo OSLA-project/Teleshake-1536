@@ -101,7 +101,7 @@ class ShakeControllerImpl(ShakeControllerBase):
 
     def StartShaking(
         self,
-        shakerId: int,
+        ShakerId: int,
         TargetSpeed: float,
         TargetPower: float,
         *,
@@ -109,9 +109,9 @@ class ShakeControllerImpl(ShakeControllerBase):
     ) -> StartShaking_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
-                shaker.SetRPM(TargetSpeed, addr=shakerId)
-                shaker.SetPower(TargetPower / 100, addr=shakerId)
-                shaker.StartDevice(addr=shakerId)
+                shaker.SetRPM(TargetSpeed, addr=ShakerId)
+                shaker.SetPower(TargetPower / 100, addr=ShakerId)
+                shaker.StartDevice(addr=ShakerId)
         except TimeoutError as ex:
             logger.exception(ex)
             raise TimeoutErr(repr(ex))
