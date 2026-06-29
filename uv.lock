@@ -779,7 +779,7 @@ wheels = [
 
 [[package]]
 name = "sila2"
-version = "0.12.2"
+version = "0.14.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "grpcio" },
@@ -789,7 +789,7 @@ dependencies = [
     { name = "zeroconf" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1f/86/9eb5241e197eca4b59756a8589c6b35ea35ec03b093f0f4e2c1c281e94a8/sila2-0.12.2-py3-none-any.whl", hash = "sha256:c7538f34d738bc92f63fa8349e7f40b2f60d02b5143935d740a5963cd6fdf878", size = 194542, upload-time = "2024-04-17T05:25:17.854Z" },
+    { url = "https://files.pythonhosted.org/packages/12/4c/5a4dcf0843990433871fd1ab6de50b230d4e6f3de3f727e75aa4b596142e/sila2-0.14.0-py3-none-any.whl", hash = "sha256:0f85447cf9a92889170f666410d5f45b736f2b4025132d73f54609027118a839", size = 197861, upload-time = "2025-12-01T17:31:01.257Z" },
 ]
 
 [package.optional-dependencies]
@@ -836,7 +836,7 @@ requires-dist = [
     { name = "ifaddr", specifier = "==0.2.0" },
     { name = "protobuf", specifier = "~=6.31.1" },
     { name = "pyserial", specifier = "==3.5" },
-    { name = "sila2", extras = ["cryptography"], specifier = "==0.12.2" },
+    { name = "sila2", extras = ["cryptography"], specifier = ">=0.13.0" },
     { name = "typer", specifier = ">=0.9.0" },
     { name = "typing-extensions", specifier = ">=4.12.2" },
     { name = "zeroconf", specifier = ">=0.39.4" },
@@ -847,7 +847,7 @@ dev = [
     { name = "pre-commit", specifier = ">=4.0.0" },
     { name = "pytest", specifier = ">=9.0.3" },
     { name = "ruff", specifier = ">=0.9.0" },
-    { name = "sila2", extras = ["codegen"], specifier = "==0.12.2" },
+    { name = "sila2", extras = ["codegen"], specifier = ">=0.13.0" },
 ]
 
 [[package]]
