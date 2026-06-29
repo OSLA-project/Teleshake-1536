@@ -207,7 +207,7 @@ class Teleshake1536(Teleshake):
         if status.err:
             raise InternalError(self.GetLastError())
         if not status.on:
-            raise IOError(f"Status error : 0b{status:08b} (Not started)")
+            raise IOError(f"Status error : {status} (Not started)")
 
     def StopDevice(self, addr: int = 0):
         msg = Frame.Create(0x31)
@@ -216,4 +216,4 @@ class Teleshake1536(Teleshake):
         if status.err:
             raise InternalError(self.GetLastError())
         if status.on:
-            raise IOError(f"Status error : 0b{status:08b} (Not stopped)")
+            raise IOError(f"Status error : {status} (Not stopped)")

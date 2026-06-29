@@ -18,6 +18,7 @@ from ..feature_implementations.cancelcontroller_impl import CancelControllerImpl
 from ..feature_implementations.settingsservice_impl import SettingsServiceImpl
 from ..feature_implementations.simulationcontroller_impl import SimulationControllerImpl
 from ..generated.shakecontroller import (
+    GetStatus_Responses,
     GoHome_Responses,
     LockPlate_Responses,
     ShakeControllerBase,
@@ -82,11 +83,11 @@ class ShakeControllerImpl(ShakeControllerBase):
         return SimulationControllerImpl.SimulationActive
 
     def StopShaking(
-        self, *, shakerId: int, metadata: MetadataDict
+        self, ShakerId: int, *, metadata: MetadataDict
     ) -> StopShaking_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
-                shaker.StopDevice(addr=shakerId)
+                shaker.StopDevice(addr=ShakerId)
         except TimeoutError as ex:
             logger.exception(ex)
             raise TimeoutErr(repr(ex))
@@ -100,7 +101,7 @@ class ShakeControllerImpl(ShakeControllerBase):
 
     def StartShaking(
         self,
-        shakerId: int,
+        ShakerId: int,
         TargetSpeed: float,
         TargetPower: float,
         *,
@@ -108,9 +109,9 @@ class ShakeControllerImpl(ShakeControllerBase):
     ) -> StartShaking_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
-                shaker.SetRPM(TargetSpeed, addr=shakerId)
-                shaker.SetPower(TargetPower / 100, addr=shakerId)
-                shaker.StartDevice(addr=shakerId)
+                shaker.SetRPM(TargetSpeed, addr=ShakerId)
+                shaker.SetPower(TargetPower / 100, addr=ShakerId)
+                shaker.StartDevice(addr=ShakerId)
         except TimeoutError as ex:
             logger.exception(ex)
             raise TimeoutErr(repr(ex))
@@ -122,15 +123,29 @@ class ShakeControllerImpl(ShakeControllerBase):
             raise ValidationError(repr(ex))
         return StartShaking_Responses()
 
-    def GoHome(self, *, shakerId: int, metadata: MetadataDict) -> GoHome_Responses:
+    def GetStatus(
+        self, ShakerId: int, *, metadata: MetadataDict
+    ) -> GetStatus_Responses:
+        try:
+            with self._CreateShakerInstance() as shaker:
+                status = shaker.GetStatus(addr=ShakerId)
+                return GetStatus_Responses(Status=str(status))
+        except (FrameError, IOError, InternalError) as ex:
+            logger.exception(ex)
+            raise UndefinedExecutionError(repr(ex))
+        except ParameterError as ex:
+            logger.exception(ex)
+            raise ValidationError(repr(ex))
+
+    def GoHome(self, ShakerId: int, *, metadata: MetadataDict) -> GoHome_Responses:
         return GoHome_Responses()
 
     def UnlockPlate(
-        self, *, shakerId: int, metadata: MetadataDict
+        self, ShakerId: int, *, metadata: MetadataDict
     ) -> UnlockPlate_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
-                shaker.OpenClamp(addr=shakerId)
+                shaker.OpenClamp(addr=ShakerId)
         except TimeoutError as ex:
             logger.exception(ex)
             raise TimeoutErr(repr(ex))
@@ -143,11 +158,11 @@ class ShakeControllerImpl(ShakeControllerBase):
         return UnlockPlate_Responses()
 
     def LockPlate(
-        self, *, shakerId: int, metadata: MetadataDict
+        self, ShakerId: int, *, metadata: MetadataDict
     ) -> LockPlate_Responses:
         try:
             with self._CreateShakerInstance() as shaker:
-                shaker.CloseClamp(addr=shakerId)
+                shaker.CloseClamp(addr=ShakerId)
         except TimeoutError as ex:
             logger.exception(ex)
             raise TimeoutErr(repr(ex))

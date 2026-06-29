@@ -10,4 +10,4 @@ XML4=./feature_xml/SimulationController-v1_0.sila.xml
 echo "#Generating Sila2 dependencies"
 echo "Target folder: $TARGET_FOLDER"
 
-sila2-codegen generate-feature-files -o "$TARGET_FOLDER" "$XML1" "$XML2" "$XML3" "$XML4"
+sila2-codegen generate-feature-files --overwrite -o "$TARGET_FOLDER" "$XML1" "$XML2" "$XML3" "$XML4"

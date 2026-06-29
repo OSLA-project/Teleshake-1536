@@ -24,6 +24,13 @@ class LockPlate_Responses(NamedTuple):
     pass
 
 
+class GetStatus_Responses(NamedTuple):
+    Status: str
+    """
+    Current status of the shaker as a human-readable string.
+    """
+
+
 class ShakeForTime_Responses(NamedTuple):
     pass
 

@@ -12,6 +12,7 @@ from sila2.server import (
 )
 
 from .shakecontroller_types import (
+    GetStatus_Responses,
     GoHome_Responses,
     LockPlate_Responses,
     ShakeForTime_IntermediateResponses,
@@ -116,6 +117,25 @@ class ShakeControllerBase(FeatureImplementationBase, ABC):
         :param ShakerId: ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker.
 
         :param metadata: The SiLA Client Metadata attached to the call
+
+        """
+
+    @abstractmethod
+    def GetStatus(
+        self, ShakerId: int, *, metadata: MetadataDict
+    ) -> GetStatus_Responses:
+        """
+        Get the current status of the shaker.
+
+
+        :param ShakerId: ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker.
+
+        :param metadata: The SiLA Client Metadata attached to the call
+
+        :return:
+
+            - Status: Current status of the shaker as a human-readable string.
+
 
         """
 

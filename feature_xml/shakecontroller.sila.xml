@@ -242,6 +242,28 @@
       </DataType>
     </Parameter>
   </Command>
+  <Command>
+    <Identifier>GetStatus</Identifier>
+    <DisplayName>Get Status</DisplayName>
+    <Description>Get the current status of the shaker.</Description>
+    <Observable>No</Observable>
+    <Parameter>
+      <Identifier>ShakerId</Identifier>
+      <DisplayName>Shaker ID</DisplayName>
+      <Description>ID of the target shaker in the daisy chain. Use 0 to target the directly connected shaker.</Description>
+      <DataType>
+        <Basic>Integer</Basic>
+      </DataType>
+    </Parameter>
+    <Response>
+      <Identifier>Status</Identifier>
+      <DisplayName>Status</DisplayName>
+      <Description>Current status of the shaker as a human-readable string.</Description>
+      <DataType>
+        <Basic>String</Basic>
+      </DataType>
+    </Response>
+  </Command>
 
   <DefinedExecutionError>
     <Identifier>CancelledError</Identifier>
