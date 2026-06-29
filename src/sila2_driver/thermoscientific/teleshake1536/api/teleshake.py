@@ -5,7 +5,7 @@ from typing import Union
 
 from serial import Serial
 
-from .frame import ControlByte, Frame, FrameError, StatusByte
+from .frame import Frame, FrameError, StatusByte
 from .rpm_converter import Convert
 
 
@@ -34,6 +34,7 @@ class Teleshake:
         parity: str = "N",
         stopbits: int = 1,
     ):
+
         """Create an object for communication with a Teleshake 1536 over serial port
 
         Args:
@@ -76,10 +77,7 @@ class Teleshake:
     def GetLastError(self) -> str:
         raise NotImplementedError("This function should be overridden in sub-classes")
 
-    def SendFrame(self, msg: Frame, addr: int = 0):
-        msg = Frame.Create(
-            msg.Cmd, [msg.Data0, msg.Data1, msg.Data2], ctrl_byte=ControlByte(addr=addr)
-        )
+    def SendFrame(self, msg: Frame):
         self._ser.read_all()
         self._ser.write(msg.Flatten())
         self._ser.flush()
@@ -89,31 +87,27 @@ class Teleshake:
 
     def ValidateReply(self, repl: Frame, msg: Frame):
         if repl.Cmd != msg.Cmd:
-            raise FrameError(
-                f"Command code mismatch error: 0x{repl.Cmd:02x} != 0x{msg.Cmd:02x}"
-            )
+            raise FrameError(f"Command code mismatch error: 0x{repl.Cmd:02x} != 0x{msg.Cmd:02x}")
 
         if repl.Ctrl.addr != msg.Ctrl.addr:
-            raise FrameError(
-                f"Address mismatch error: 0b{repl.Ctrl.addr:04b} != 0b{msg.Ctrl.addr:04b}"
-            )
+            raise FrameError(f"Address mismatch error: 0b{repl.Ctrl.addr:04b} != 0b{msg.Ctrl.addr:04b}")
 
         if repl.Ctrl.error:
             raise InternalError(self.GetLastError())
 
 
 class Teleshake1536(Teleshake):
-    def CloseClamp(self, addr: int = 0):
+    def CloseClamp(self):
         msg = Frame.Create(0x58)
-        repl = self.SendFrame(msg, addr=addr)
+        repl = self.SendFrame(msg)
         status = StatusByte.Unflatten(repl.Data0)
         if status.err:
             raise InternalError(self.GetLastError())
         sleep(2.0)  # Wait for clamps to close
 
-    def GetInfo(self, addr: int = 0):
+    def GetInfo(self):
         msg = Frame.Create(0x23, [00, 00, 00])
-        return self.SendFrame(msg, addr=addr)
+        return self.SendFrame(msg)
 
     def GetLastError(self) -> str:
         lookup = {
@@ -139,27 +133,29 @@ class Teleshake1536(Teleshake):
         err_no = repl.Data0
         return lookup[err_no]
 
-    def GetPower(self, addr: int = 0):
+    def GetPower(self):
         msg = Frame.Create(0x3F)
-        repl = self.SendFrame(msg, addr=addr)
+        repl = self.SendFrame(msg)
         return repl.Data0 / 0x100  # Power in arb units (0.0-1.0)
 
-    def GetRPM(self, addr: int = 0) -> int:
+    def GetRPM(self) -> int:
         msg = Frame.Create(0x32)
-        repl = self.SendFrame(msg, addr=addr)
+        repl = self.SendFrame(msg)
         raw_cycle_time = repl.Data0 + repl.Data1 * 0x100 + repl.Data2 * 0x10000
+        # return raw_cycle_time
+
         return Convert.ToRPM(raw_cycle_time)
 
-    def GetSerial(self, addr: int = 0):
-        frame = self.GetInfo(addr=addr)
+    def GetSerial(self):
+        frame = self.GetInfo()
         return f"{frame.Data1:02}.{frame.Data0:02}"
 
-    def GetStatus(self, addr: int = 0):
-        return StatusByte.Unflatten(self.GetInfo(addr=addr).Data2)
+    def GetStatus(self):
+        return StatusByte.Unflatten(self.GetInfo().Data2)
 
-    def OpenClamp(self, addr: int = 0):
+    def OpenClamp(self):
         msg = Frame.Create(0x57)
-        repl = self.SendFrame(msg, addr=addr)
+        repl = self.SendFrame(msg)
         status = StatusByte.Unflatten(repl.Data0)
         if status.err:
             raise InternalError(self.GetLastError())
@@ -168,7 +164,7 @@ class Teleshake1536(Teleshake):
     def ResetDevice(self):
         raise NotImplementedError
 
-    def SetPower(self, power: float, addr: int = 0):
+    def SetPower(self, power: float):
         if power > 1 or power < 0:
             raise ParameterError("Output out of range error")
 
@@ -179,11 +175,11 @@ class Teleshake1536(Teleshake):
             power_rescale = 0
 
         msg = Frame.Create(0x3E, [power_rescale])
-        repl = self.SendFrame(msg, addr=addr)
+        repl = self.SendFrame(msg)
         if repl.Data0 != power_rescale:
             raise IOError(f"Failed to set power to {power}")
 
-    def SetRPM(self, rpm: int, addr: int = 0):
+    def SetRPM(self, rpm: int):
         if rpm < 4006 or rpm > 8484:
             raise ParameterError("RPM out of range error")
 
@@ -196,22 +192,22 @@ class Teleshake1536(Teleshake):
                 (rpm_rescale & 0xFF0000) // 0x10000,
             ],
         )
-        repl = self.SendFrame(msg, addr=addr)
+        repl = self.SendFrame(msg)
         if repl.Data0 + repl.Data1 * 0x100 + repl.Data2 * 0x10000 != rpm_rescale:
             raise IOError(f"Failed to set RPM to {rpm}")
 
-    def StartDevice(self, addr: int = 0):
+    def StartDevice(self):
         msg = Frame.Create(0x30)
-        repl = self.SendFrame(msg, addr=addr)
+        repl = self.SendFrame(msg)
         status = StatusByte.Unflatten(repl.Data0)
         if status.err:
             raise InternalError(self.GetLastError())
         if not status.on:
             raise IOError(f"Status error : 0b{status:08b} (Not started)")
 
-    def StopDevice(self, addr: int = 0):
+    def StopDevice(self):
         msg = Frame.Create(0x31)
-        repl = self.SendFrame(msg, addr=addr)
+        repl = self.SendFrame(msg)
         status = StatusByte.Unflatten(repl.Data0)
         if status.err:
             raise InternalError(self.GetLastError())
