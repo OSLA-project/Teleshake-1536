@@ -1,0 +1,9 @@
+services:
+  teleshake:
+    build: .
+
+  sila-browser:
+    image: registry.gitlab.com/unitelabs/sila2/sila-browser:latest
+    network_mode: host
+    ports:
+      - "3000:3000"

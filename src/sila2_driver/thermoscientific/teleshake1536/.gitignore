@@ -1,6 +1,0 @@
-# Ignore everything in the *generated* folder.
-generated
-
-# Except for these files:
-!./generated/__init__.py
-!./generated/client.py

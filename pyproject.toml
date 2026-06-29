@@ -6,10 +6,22 @@ authors = [
 ]
 description = "SiLA2 driver for controlling Thermo Scientific's Teleshaker 1536"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python= ">=3.12"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
+]
+dependencies = [
+    "async-timeout==4.0.2",
+    "grpcio==1.75.1",
+    "grpcio-tools==1.75.1",
+    "ifaddr==0.2.0",
+    "protobuf~=6.31.1",
+    "pyserial==3.5",
+    "sila2[cryptography]>=0.13.0",
+    "typer>=0.9.0",
+    "typing-extensions>=4.12.2",
+    "zeroconf>=0.39.4",
 ]
 
 [build-system]
@@ -32,5 +44,13 @@ line-length = 120
 [tool.isort]
 line_length = 120
 profile = "black"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.0.0",
+    "pytest>=9.0.3",
+    "ruff>=0.9.0",
+    "sila2[codegen]>=0.13.0",
+]
 
 
