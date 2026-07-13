@@ -4,6 +4,8 @@ This repository contains a SiLA2 driver for the Teleshake 1536 microplate shaker
 [the original](https://gitlab.com/sila-driver-group/teleshake) and functionality has been extended to support multiple
 attached shakers.
 
+WARNING: This code has not been tested on actual devices! We failed to get the connection to the hardware going before the end of the project.
+
 ## Getting started
 
 ### Prerequisites:
